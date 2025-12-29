@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -156,13 +157,14 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.only(bottom: 40),
             child: ElevatedButton(
               onPressed: () {
-                if (_mobileController.text.isNotEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Verifying +91 ${_mobileController.text}'),
-                    ),
-                  );
-                }
+                // if (_mobileController.text.isNotEmpty) {
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text('Verifying +91 ${_mobileController.text}'),
+                //     ),
+                //   );
+                // }
+                context.go('/otp');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF008069),
