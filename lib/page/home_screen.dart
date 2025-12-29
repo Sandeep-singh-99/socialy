@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:socialy/widgets/chat_tile.dart';
+import 'package:socialy/widgets/friend_request_tile.dart';
 import 'package:socialy/widgets/search_user.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -36,18 +39,67 @@ class _HomeScreenState extends State<HomeScreen> {
           bottom: const TabBar(
             indicatorColor: Colors.white,
             indicatorWeight: 5,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
-            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.white,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            ),
             tabs: [
               Tab(text: "Chats"),
               Tab(text: "Requests"),
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            Center(child: Text("No Chats Yet")),
-            Center(child: Text("No Friend Requests")),
+            ListView(
+              children: [
+                ChatTile(
+                  name: "Jane Doe",
+                  message: "Hey! How are you?",
+                  time: "10:30 AM",
+                  onTap: () => context.push('/chat', extra: "Jane Doe"),
+                ),
+                ChatTile(
+                  name: "John Smith",
+                  message: "Let's meet tomorrow.",
+                  time: "Yesterday",
+                  onTap: () => context.push('/chat', extra: "John Smith"),
+                ),
+                ChatTile(
+                  name: "Alex Johnson",
+                  message: "Can you send the file?",
+                  time: "Yesterday",
+                  onTap: () => context.push('/chat', extra: "Alex Johnson"),
+                ),
+              ],
+            ),
+            ListView(
+              children: [
+                FriendRequestTile(
+                  name: "Sarah Connor",
+                  time: "1d",
+                  onConfirm: () {}, // TODO: Implement Accept Logic
+                  onDelete: () {}, // TODO: Implement Delete Logic
+                ),
+                FriendRequestTile(
+                  name: "Kyle Reese",
+                  time: "2w",
+                  onConfirm: () {},
+                  onDelete: () {},
+                ),
+                FriendRequestTile(
+                  name: "Marcus Wright",
+                  time: "5m",
+                  onConfirm: () {},
+                  onDelete: () {},
+                ),
+              ],
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
