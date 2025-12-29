@@ -159,6 +159,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     // Verify action
+                    context.go('/user_details');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
