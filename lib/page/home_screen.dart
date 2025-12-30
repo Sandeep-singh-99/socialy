@@ -30,10 +30,19 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.search),
               color: Colors.white,
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.more_vert),
-              color: Colors.white,
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                // TODO: Handle menu selection
+              },
+              icon: const Icon(Icons.more_vert, color: Colors.white),
+              itemBuilder: (BuildContext context) {
+                return [
+                  const PopupMenuItem(
+                    value: 'profile_settings',
+                    child: Text('Profile Settings'),
+                  ),
+                ];
+              },
             ),
           ],
           bottom: const TabBar(
