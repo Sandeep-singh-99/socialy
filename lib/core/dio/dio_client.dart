@@ -5,9 +5,7 @@ import '../constants/api.dart';
 final Dio dio = Dio(
   BaseOptions(
     baseUrl: ApiConstants.baseUrl,
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: {"Content-Type": "application/json"},
   ),
 );
 
@@ -27,12 +25,9 @@ void setupInterceptors() {
 
           if (refreshed) {
             final newToken = await TokenStorage.getAccessToken();
-            error.requestOptions.headers["Authorization"] =
-                "Bearer $newToken";
+            error.requestOptions.headers["Authorization"] = "Bearer $newToken";
 
-            return handler.resolve(
-              await dio.fetch(error.requestOptions),
-            );
+            return handler.resolve(await dio.fetch(error.requestOptions));
           }
         }
         handler.next(error);
@@ -47,7 +42,7 @@ Future<bool> _refreshToken() async {
     if (refresh == null) return false;
 
     final res = await dio.post(
-      "/auth/refresh-token",
+      "/api/auth/refresh-token",
       data: {"refreshToken": refresh},
     );
 

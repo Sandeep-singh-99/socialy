@@ -15,7 +15,16 @@ final GoRouter router = GoRouter(
       path: '/welcome',
       builder: (context, state) => const WelcomeScreen(),
     ),
-    GoRoute(path: '/otp', builder: (context, state) => const OtpScreen()),
+    GoRoute(
+      path: '/otp',
+      builder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>;
+        return OtpScreen(
+          verificationId: extras['verificationId'],
+          phoneNumber: extras['phoneNumber'],
+        );
+      },
+    ),
     GoRoute(
       path: '/user_details',
       builder: (context, state) => const UserDetailsUpload(),
