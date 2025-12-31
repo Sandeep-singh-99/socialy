@@ -18,10 +18,9 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/otp',
       builder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>;
+        final extras = state.extra as Map<String, dynamic>?;
         return OtpScreen(
-          verificationId: extras['verificationId'],
-          phoneNumber: extras['phoneNumber'],
+          phoneNumber: extras?['phoneNumber'] ?? '+91 XXXXX XXXXX',
         );
       },
     ),

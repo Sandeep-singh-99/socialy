@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:socialy/core/storage/token_storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,13 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _navigateToLogin() async {
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
-
-    final token = await TokenStorage.getAccessToken();
-    if (token != null) {
-      context.go('/home');
-    } else {
-      context.go('/welcome');
-    }
+    context.go('/welcome');
   }
 
   @override

@@ -2,21 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:socialy/features/auth/bloc/auth_bloc.dart';
-import 'package:socialy/features/auth/bloc/auth_event.dart';
-import 'package:socialy/features/auth/bloc/auth_state.dart';
-
 class OtpScreen extends StatefulWidget {
-  final String verificationId;
   final String phoneNumber;
 
-  const OtpScreen({
-    super.key,
-    required this.verificationId,
-    required this.phoneNumber,
-  });
+  const OtpScreen({super.key, required this.phoneNumber});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -56,188 +45,139 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is AuthAuthenticated) {
-          context.go('/home');
-        } else if (state is AuthError) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
-        }
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.black,
-              size: 20,
-            ),
-            onPressed: () => context.pop(),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.black,
+            size: 20,
           ),
-          backgroundColor: Colors.white,
-          elevation: 0,
+          onPressed: () => context.pop(),
         ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                const Text(
-                  'Enter OTP',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 28,
-                  ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                'Enter OTP',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
                 ),
-                const SizedBox(height: 10),
-                RichText(
-                  text: TextSpan(
-                    style: const TextStyle(color: Colors.grey, fontSize: 16),
-                    children: [
-                      const TextSpan(
-                        text:
-                            'Enter the verification code we just sent on your mobile number ',
+              ),
+              const SizedBox(height: 10),
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(color: Colors.grey, fontSize: 16),
+                  children: [
+                    const TextSpan(
+                      text:
+                          'Enter the verification code we just sent on your mobile number ',
+                    ),
+                    TextSpan(
+                      text: widget.phoneNumber,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(4, (index) {
+                  return SizedBox(
+                    width: 70,
+                    height: 70,
+                    child: TextField(
+                      controller: _controllers[index],
+                      focusNode: _focusNodes[index],
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      decoration: InputDecoration(
+                        counterText: "",
+                        filled: true,
+                        fillColor: Colors.grey[100],
+                        contentPadding: EdgeInsets.zero,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(color: Colors.grey[200]!),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: const BorderSide(
+                            color: Colors.teal,
+                            width: 2,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      onChanged: (value) => _onChanged(value, index),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(height: 30),
+              Center(
+                child: RichText(
+                  text: const TextSpan(
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                    children: [
+                      TextSpan(text: "Didn't receive code? "),
                       TextSpan(
-                        text: widget.phoneNumber,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
+                        text: 'Resend',
+                        style: TextStyle(
+                          color: Colors.teal,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(4, (index) {
-                    return SizedBox(
-                      width: 70,
-                      height: 70,
-                      child: TextField(
-                        controller: _controllers[index],
-                        focusNode: _focusNodes[index],
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        maxLength: 1,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        decoration: InputDecoration(
-                          counterText: "",
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          contentPadding: EdgeInsets.zero,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: Colors.grey[200]!),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(
-                              color: Colors.teal,
-                              width: 2,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        onChanged: (value) => _onChanged(value, index),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
-                    );
-                  }),
-                ),
-                const SizedBox(height: 30),
-                Center(
-                  child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
-                      children: [
-                        TextSpan(text: "Didn't receive code? "),
-                        TextSpan(
-                          text: 'Resend',
-                          style: TextStyle(
-                            color: Colors.teal,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+              ),
+              const SizedBox(height: 50),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Logic removed
+                    context.go("/user_details");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
+                    elevation: 1,
+                  ),
+                  child: const Text(
+                    'Verify',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(height: 50),
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final otp = _controllers.map((c) => c.text).join();
-                      if (otp.length != 4) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Please enter full OTP"),
-                          ),
-                        );
-                        return;
-                      }
-
-                      try {
-                        // 1. Create credential
-                        PhoneAuthCredential credential =
-                            PhoneAuthProvider.credential(
-                              verificationId: widget.verificationId,
-                              smsCode: otp,
-                            );
-
-                        // 2. Sign in to Firebase
-                        final userCredential = await FirebaseAuth.instance
-                            .signInWithCredential(credential);
-
-                        final token = await userCredential.user?.getIdToken();
-
-                        if (token != null && mounted) {
-                          // 3. Authenticate with Backend via Bloc
-                          context.read<AuthBloc>().add(
-                            FirebaseLoginRequested(token),
-                          );
-                        }
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Invalid OTP")),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 1,
-                    ),
-                    child: const Text(
-                      'Verify',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

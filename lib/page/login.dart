@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 
 class Login extends StatefulWidget {
@@ -158,42 +157,7 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.only(bottom: 40),
             child: ElevatedButton(
               onPressed: () {
-                // if (_mobileController.text.isNotEmpty) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text('Verifying +91 ${_mobileController.text}'),
-                //     ),
-                //   );
-                // }
-                final phone = _mobileController.text.trim();
-                if (phone.isEmpty || phone.length < 10) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Enter a valid phone number")),
-                  );
-                  return;
-                }
-
-                FirebaseAuth.instance.verifyPhoneNumber(
-                  phoneNumber: '+91$phone',
-                  verificationCompleted: (PhoneAuthCredential credential) {},
-                  verificationFailed: (FirebaseAuthException e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Verification Failed: ${e.message}"),
-                      ),
-                    );
-                  },
-                  codeSent: (String verificationId, int? resendToken) {
-                    context.go(
-                      '/otp',
-                      extra: {
-                        'verificationId': verificationId,
-                        'phoneNumber': '+91$phone',
-                      },
-                    );
-                  },
-                  codeAutoRetrievalTimeout: (String verificationId) {},
-                );
+                context.go('/otp');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF008069),
