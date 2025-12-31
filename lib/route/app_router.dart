@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
+import 'package:socialy/features/auth/presentation/pages/login_page.dart';
+import 'package:socialy/features/auth/presentation/pages/otp_page.dart';
 import 'package:socialy/page/chat_page.dart';
 import 'package:socialy/page/home_screen.dart';
-import 'package:socialy/page/login.dart';
-import 'package:socialy/page/otp_screen.dart';
 import 'package:socialy/page/splash_screen.dart';
 import 'package:socialy/page/user_details_upload.dart';
 import 'package:socialy/page/welcome_screen.dart';
@@ -19,8 +19,9 @@ final GoRouter router = GoRouter(
       path: '/otp',
       builder: (context, state) {
         final extras = state.extra as Map<String, dynamic>?;
-        return OtpScreen(
-          phoneNumber: extras?['phoneNumber'] ?? '+91 XXXXX XXXXX',
+        return OtpPage(
+          phoneNumber: extras?['phoneNumber'] ?? '',
+          verificationId: extras?['verificationId'] ?? '',
         );
       },
     ),
@@ -28,7 +29,7 @@ final GoRouter router = GoRouter(
       path: '/user_details',
       builder: (context, state) => const UserDetailsUpload(),
     ),
-    GoRoute(path: '/login', builder: (context, state) => const Login()),
+    GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
     GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
     GoRoute(
       path: '/chat',
