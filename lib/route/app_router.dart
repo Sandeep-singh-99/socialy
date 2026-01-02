@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:socialy/features/auth/presentation/pages/login_page.dart';
-import 'package:socialy/features/auth/presentation/pages/otp_page.dart';
+import 'package:socialy/page/login_page.dart';
+import 'package:socialy/page/otp_page.dart';
 import 'package:socialy/page/chat_page.dart';
 import 'package:socialy/page/home_screen.dart';
 import 'package:socialy/page/splash_screen.dart';
