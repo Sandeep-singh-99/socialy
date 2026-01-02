@@ -7,84 +7,124 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+          child: Column(
+            children: [
+              const Spacer(),
+              // Hero Image
+              Expanded(
+                flex: 3,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Image.asset("assets/img1.png", fit: BoxFit.contain),
+                ),
+              ),
+              const SizedBox(height: 40),
+              // Title
+              Text(
+                'Welcome to Socialy',
+                style: TextStyle(
+                  fontSize: 28,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black26,
+                      offset: const Offset(0, 2),
+                      blurRadius: 1,
+                    ),
+                  ],
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                  letterSpacing: 0.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              // Terms and Policy Text
+              RichText(
+                textAlign: TextAlign.center,
+                text: const TextSpan(
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 14,
+                    height: 1.5,
+                  ),
                   children: [
-                    Text(
-                      'Welcome to Socialy',
+                    TextSpan(text: 'Read our '),
+                    TextSpan(
+                      text: 'Privacy Policy',
                       style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF008069),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Image.asset("assets/img1.png", width: 200, height: 200),
-                    SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text.rich(
-                        TextSpan(
-                          text: 'Read our ',
-                          style: TextStyle(color: Colors.black),
-                          children: [
-                            TextSpan(
-                              text: 'Privacy Policy. ',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                            TextSpan(
-                              text: 'Tap "Agree and continue" to accept the ',
-                            ),
-                            TextSpan(
-                              text: 'Terms of Service.',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.center,
+                    TextSpan(text: '. Tap "Agree and continue" to accept the '),
+                    TextSpan(
+                      text: 'Terms of Service',
+                      style: TextStyle(
+                        color: Color(0xFF008069),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.go('/login');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                      ),
-                      child: Text(
-                        'Agree and continue',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
+                    TextSpan(text: '.'),
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              const SizedBox(height: 40),
+              // Action Button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.go('/login');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF008069), // Brand Green
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  child: const Text('Agree and continue'),
+                ),
+              ),
+              const Spacer(),
+              // Footer
+              Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('from', style: TextStyle(color: Colors.black54)),
                   Text(
+                    'from',
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 12,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
                     'Socialy',
                     style: TextStyle(
-                      color: Colors.teal,
+                      color: Color(0xFF008069),
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
+                      letterSpacing: 1.5,
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
