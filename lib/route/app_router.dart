@@ -1,11 +1,11 @@
 import 'package:go_router/go_router.dart';
-import 'package:socialy/page/login_page.dart';
-import 'package:socialy/page/otp_page.dart';
-import 'package:socialy/page/chat_page.dart';
-import 'package:socialy/page/home_screen.dart';
-import 'package:socialy/page/splash_screen.dart';
-import 'package:socialy/page/user_details_upload.dart';
-import 'package:socialy/page/welcome_screen.dart';
+import 'package:socialy/presentation/screens/login_page.dart';
+import 'package:socialy/presentation/screens/otp_page.dart';
+import 'package:socialy/presentation/screens/chat_page.dart';
+import 'package:socialy/presentation/screens/home_screen.dart';
+import 'package:socialy/presentation/screens/splash_screen.dart';
+import 'package:socialy/presentation/screens/user_details_upload.dart';
+import 'package:socialy/presentation/screens/welcome_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',

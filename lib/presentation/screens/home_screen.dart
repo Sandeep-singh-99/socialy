@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:socialy/widgets/chat_tile.dart';
-import 'package:socialy/widgets/friend_request_tile.dart';
-import 'package:socialy/widgets/search_user.dart';
+import 'package:socialy/presentation/widgets/chat_tile.dart';
+import 'package:socialy/presentation/widgets/friend_request_tile.dart';
+import 'package:socialy/presentation/widgets/search_user.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
