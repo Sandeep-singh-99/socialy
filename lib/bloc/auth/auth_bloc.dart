@@ -7,21 +7,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuthService _authService;
 
   AuthBloc(this._authService) : super(AuthInitial()) {
-    on<AuthEvent, AuthState>(
-      (event, emit) {
-        if (event is SendOtpEvent) {
-          emit(AuthLoading());
-          _authService.verifyPhoneNumber(
-            phone: event.phoneNumber,
-            codeSent: (verificationId) {
-              emit(AuthSuccess(user: _authService.getCurrentUser()!));
-            },
-            onError: (error) {
-              emit(AuthError(error));
-            },
-          );
+    on<SendOtpEvent>((event, emit) async {
+      emit(AuthLoading());
+      await _authService.verifyPhoneNumber(
+        phone: event.phoneNumber,
+        codeSent: (verificationId) {
+          emit(AuthCodeSent(verificationId));
+        },
+        onError: (error) {
+          emit(AuthError(error));
+        },
+      );
+    });
+
+    on<VerifyOtpEvent>((event, emit) async {
+      emit(AuthLoading());
+      try {
+        final user = await _authService.verifyOtp(
+          verificationId: event.verificationId,
+          otp: event.otp,
+        );
+        if (user != null) {
+          emit(AuthSuccess(user));
+        } else {
+          emit(AuthError("Verification failed"));
         }
-      },
-    );
+      } catch (e) {
+        emit(AuthError(e.toString()));
+      }
+    });
+
+    on<SignOutEvent>((event, emit) async {
+      await _authService.signOut();
+      emit(AuthInitial());
+    });
+
+    on<GetCurrentUserEvent>((event, emit) async {
+      final user = await _authService.getCurrentUser();
+      if (user != null) {
+        emit(AuthSuccess(user));
+      } else {
+        emit(AuthInitial());
+      }
+    });
   }
 }
